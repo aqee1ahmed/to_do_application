@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:to_do_application/static/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,12 +31,13 @@ class taskProvider {
   }
 
   static Future<void> createTask(
-      String title, String details, bool taskStatus) async {
+      String title, String details, bool taskStatus, int? pictureId) async {
     try {
       final payload = {
         'title': title,
         'details': details,
         'taskStatus': taskStatus,
+        'pictureId': pictureId,
       };
 
       await _firestore

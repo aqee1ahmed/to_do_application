@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_application/screens/home_screen.dart';
+import 'package:to_do_application/screens/test.dart';
 
 import 'firebase_options.dart';
 
@@ -22,7 +23,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }

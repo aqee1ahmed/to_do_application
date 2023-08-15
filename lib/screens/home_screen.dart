@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:to_do_application/screens/widgets/task_details_dialog.dart';
+import 'package:to_do_application/services/database/media/data_provider.dart';
 import 'package:to_do_application/services/database/users/data_provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,13 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void clearTextFields() {
     setState(() {
-      titleController.clear();
-      detailsController.clear();
       updateTitleController.clear();
       updateDetailsController.clear();
     });
   }
 
+  String? _selectedFileName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,65 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           await showDialog(
             context: context,
             builder: (context) {
-              return BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 2,
-                  sigmaY: 2,
-                ),
-                child: AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  elevation: 5.0,
-                  title: const Text('Task Details'),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        controller: titleController,
-                        decoration: InputDecoration(
-                          labelText: 'Title',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        maxLines: 2,
-                        controller: detailsController,
-                        decoration: InputDecoration(
-                          labelText: 'Details',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    ElevatedButton(
-                      onPressed: () {
-                        String title = titleController.text;
-                        String details = detailsController.text;
-                        bool taskStatus = false;
-                        taskProvider.createTask(title, details, taskStatus);
-                        clearTextFields();
-
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Add Task'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        clearTextFields();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Cancel'),
-                    ),
-                  ],
-                ),
-              );
+              return TaskDetailsDialog();
             },
           );
         },
